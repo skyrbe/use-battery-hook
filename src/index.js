@@ -30,18 +30,18 @@ const useBattery = () => {
   },[]);
 
   const unHookBattery = (battery) => {
-    battery.removeEventListener('levelchange', updateBattery);
-    battery.removeEventListener('chargingchange', updateBattery);
-    battery.removeEventListener('dischargingtimechange', updateBattery);
-    battery.removeEventListener('chargingtimechange', updateBattery);
+    battery.removeEventListener('levelchange', () => updateBattery(battery));
+    battery.removeEventListener('chargingchange', () => updateBattery(battery));
+    battery.removeEventListener('dischargingtimechange', () => updateBattery(battery));
+    battery.removeEventListener('chargingtimechange', () => updateBattery(battery));
   };
 
   const hookBattery = (battery) => {
     updateBattery(battery);
-    battery.addEventListener('levelchange', updateBattery);
-    battery.addEventListener('chargingchange', updateBattery);
-    battery.addEventListener('dischargingtimechange', updateBattery);
-    battery.addEventListener('chargingtimechange', updateBattery);
+    battery.addEventListener('levelchange', () => updateBattery(battery));
+    battery.addEventListener('chargingchange', () => updateBattery(battery));
+    battery.addEventListener('dischargingtimechange', () => updateBattery(battery));
+    battery.addEventListener('chargingtimechange', () => updateBattery(battery));
   };
 
   const updateBattery = (battery) => {
