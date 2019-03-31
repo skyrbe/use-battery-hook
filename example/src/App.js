@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
+import React from 'react';
+import useBattery from 'use-battery-hook';
 
-import ExampleComponent from 'use-battery-hook'
+const App = (props) => {
+  const [data, loading] = useBattery('hi');
+  return (
+    <div className="className">
+      content
+    </div>
+  );
+};
 
-export default class App extends Component {
-  render () {
-    return (
-      <div>
-        <ExampleComponent text='Modern React component module' />
-      </div>
-    )
-  }
-}
+export default App;

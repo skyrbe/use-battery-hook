@@ -13,16 +13,15 @@ npm install --save use-battery-hook
 ## Usage
 
 ```jsx
-import React, { Component } from 'react'
+import React from 'react'
 
-import MyComponent from 'use-battery-hook'
+import useBattery from 'use-battery-hook'
 
-class Example extends Component {
-  render () {
-    return (
-      <MyComponent />
-    )
-  }
+const Example = () => {
+  const { charging, chargingTime, dischargingTime, level } = useBattery();
+  return (
+    <MyComponent />
+  )
 }
 ```
 

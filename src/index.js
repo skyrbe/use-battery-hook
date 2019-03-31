@@ -1,22 +1,57 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { useReducer, useEffect } from "react"
 
-import styles from './styles.css'
+const initialState = {};
 
-export default class ExampleComponent extends Component {
-  static propTypes = {
-    text: PropTypes.string
-  }
-
-  render() {
-    const {
-      text
-    } = this.props
-
-    return (
-      <div className={styles.test}>
-        Example Component: {text}
-      </div>
-    )
+function reducer(state, action) {
+  switch (action.type) {
+    case 'UPDATE_BATTERY':
+      return {
+        ...state,
+        battery: action.payload
+      };
+    default:
+      throw new Error();
   }
 }
+
+const useBattery = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    if ('getBattery' in window.navigator) {
+      window.navigator.getBattery().then((battery) => hookBattery(battery));
+    } else {
+      window.ChromeSamples.setStatus('The Battery Status API is not supported on ' +
+        'this platform.');
+    }
+    return () => {
+      window.navigator.getBattery().then((battery) => unHookBattery(battery));
+    };
+  },[]);
+
+  const unHookBattery = (battery) => {
+    battery.removeEventListener('levelchange', updateBattery);
+    battery.removeEventListener('chargingchange', updateBattery);
+    battery.removeEventListener('dischargingtimechange', updateBattery);
+    battery.removeEventListener('chargingtimechange', updateBattery);
+  };
+
+  const hookBattery = (battery) => {
+    updateBattery(battery);
+    battery.addEventListener('levelchange', updateBattery);
+    battery.addEventListener('chargingchange', updateBattery);
+    battery.addEventListener('dischargingtimechange', updateBattery);
+    battery.addEventListener('chargingtimechange', updateBattery);
+  };
+
+  const updateBattery = (battery) => {
+    dispatch({
+      type: 'UPDATE_BATTERY',
+      payload: battery
+    });
+  }
+
+  return state.battery;
+};
+
+export default useBattery;
