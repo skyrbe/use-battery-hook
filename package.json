@@ -1,6 +1,6 @@
 {
   "name": "use-battery-hook",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "A react hook to get battery status",
   "keywords": "React Hooks, Battery Status, React > 16.8",
   "author": "skyrbe",
