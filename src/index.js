@@ -21,8 +21,10 @@ const useBattery = () => {
     if ('getBattery' in window.navigator) {
       window.navigator.getBattery().then((battery) => hookBattery(battery));
     } else {
-      window.ChromeSamples.setStatus('The Battery Status API is not supported on ' +
-        'this platform.');
+      if(window.ChromeSamples) {
+        window.ChromeSamples.setStatus('The Battery Status API is not supported on ' +
+          'this platform.');
+      }
     }
     return () => {
       window.navigator.getBattery().then((battery) => unHookBattery(battery));
