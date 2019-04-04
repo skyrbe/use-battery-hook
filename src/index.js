@@ -18,7 +18,7 @@ const useBattery = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    if ('getBattery' in window.navigator) {
+    if ('getBattery' in window.navigator && typeof window.navigator.getBattery !== undefined) {
       window.navigator.getBattery().then((battery) => hookBattery(battery));
     } else {
       if(window.ChromeSamples) {
