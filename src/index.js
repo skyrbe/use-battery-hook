@@ -19,7 +19,7 @@ const useBattery = () => {
 
   useEffect(() => {
     console.log('battery ', typeof window.navigator.getBattery);
-    if ('getBattery' in window.navigator && typeof window.navigator.getBattery !== undefined) {
+    if ('getBattery' in window.navigator) {
       window.navigator.getBattery().then((battery) => hookBattery(battery));
     } else {
       if(window.ChromeSamples) {
@@ -28,7 +28,9 @@ const useBattery = () => {
       }
     }
     return () => {
-      window.navigator.getBattery().then((battery) => unHookBattery(battery));
+      if ('getBattery' in window.navigator) {
+        window.navigator.getBattery().then((battery) => unHookBattery(battery));
+      }
     };
   },[]);
 
